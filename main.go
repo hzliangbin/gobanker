@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"github.com/astaxie/beego/orm"
-	"gobanker/models"
 	_ "gobanker/routers"
 
 	_ "github.com/lib/pq"
@@ -13,7 +11,8 @@ import (
 
 func init() {
 	orm.RegisterDriver("postgres",orm.DRPostgres)
-	orm.RegisterDataBase("default","postgres","user=postgres password=Gobanker@2020 dbname=gobanker host=114.67.170.73 sslmode=disable")
+	var dataSource string = beego.AppConfig.String("pgsql_datasource")
+	orm.RegisterDataBase("default","postgres", dataSource)
 	orm.RunSyncdb("default",false,true)
 }
 
@@ -23,11 +22,5 @@ func main() {
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
 	orm.Debug = true
-	o := orm.NewOrm()
-	o.Using("default")
-	bank := new(models.Bank)
-	bank.Code = "600036"
-	bank.Name = "招商银行"
-	fmt.Println(o.Insert(bank))
 	beego.Run()
 }

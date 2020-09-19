@@ -4,6 +4,7 @@ import "github.com/astaxie/beego/orm"
 
 
 type ManageInfo struct{
+	Id float64 `orm:"pk"`
 	Code string
 	FinQuarter string
 	Name string
