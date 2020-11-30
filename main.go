@@ -10,10 +10,10 @@ import (
 )
 
 func init() {
-	orm.RegisterDriver("postgres",orm.DRPostgres)
-	var dataSource string = beego.AppConfig.String("pgsql_datasource")
-	orm.RegisterDataBase("default","postgres", dataSource)
-	orm.RunSyncdb("default",false,true)
+	//orm.RegisterDriver("postgres",orm.DRPostgres)
+	//var dataSource string = beego.AppConfig.String("pgsql_datasource")
+	//orm.RegisterDataBase("default","postgres", dataSource)
+	//orm.RunSyncdb("default",false,true)
 }
 
 func main() {
