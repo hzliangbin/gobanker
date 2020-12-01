@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/astaxie/beego/orm"
 	_ "gobanker/routers"
+	"gobanker/spider/crawl/csindex"
 
 	_ "github.com/lib/pq"
 
@@ -21,6 +22,7 @@ func main() {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
+	csindex.Handler()
 	orm.Debug = true
 	beego.Run()
 }
