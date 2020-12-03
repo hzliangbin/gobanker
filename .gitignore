@@ -15,5 +15,5 @@
 vendor/
 gobanker
 .idea/
-conf/pgsql.conf
+conf/db.conf
 download
