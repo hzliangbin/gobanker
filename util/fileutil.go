@@ -38,7 +38,7 @@ func DownloadFile(url, referrer, dir, filename string) string {
 	res, err := client.Do(r)
 	defer func() { _ = res.Body.Close()}()
 
-	if err = os.Mkdir(dir,0666); err != nil {
+	if err = os.Mkdir(dir,0775); err != nil {
 		fmt.Println("dir exists already")
 	}
 

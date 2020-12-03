@@ -3,7 +3,9 @@ package spider
 import (
 	"fmt"
 	"gobanker/util"
+	"regexp"
 	"strconv"
+	"strings"
 )
 
 var url string = "http://www.csindex.com.cn/uploads/downloads/other/files/zh_CN/ZzhyflWz.zip"
@@ -20,7 +22,7 @@ type CsIndexIndustry struct {
 	Date int64
 }
 
-func CsIndexIndustryHandler() {
+func CsIndexIndustryHandler() []CsIndexIndustry {
 	path := util.DownloadFile(url,referrer,download_folder,"csindextype.zip")
 	fmt.Println(path)
 	err := util.DecompressZip(path,download_folder)
@@ -35,9 +37,30 @@ func CsIndexIndustryHandler() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(res[0][0])
-	fmt.Println(dateTime)
-
-
-
+	var data []CsIndexIndustry
+	r := regexp.MustCompile("\\s")
+	for i, cells := range res {
+		if i == 0 {
+			continue
+		}
+		code := cells[0]
+		ok, _ := regexp.MatchString("\\d{6}",code)
+		//代码不为6位数字，或是900开头（b股）
+		if !ok || strings.HasPrefix(code,"900") {
+			continue
+		}
+		data = append(data, CsIndexIndustry{
+			Code:    code,
+			Name:    r.ReplaceAllString(cells[1],""),
+			LvOne:   cells[5],
+			LvTwo:   cells[11],
+			LvThree: cells[14],
+			LvFour:  cells[16],
+			Date:    dateTime,
+		})
+	}
+	for _, v := range data {
+		fmt.Printf("%+v\r\n", v)
+	}
+	return  data
 }

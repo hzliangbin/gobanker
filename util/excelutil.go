@@ -1,30 +1,31 @@
 package util
 
 import (
-	"github.com/extrame/xls"
+	"github.com/shakinm/xlsReader/xls"
 )
-
+//TODO: make it more elegant and effective
 func ReadXLSData(url string) ([][]string, error) {
-	xlsFile, err := xls.Open(url,"utf-8")
+	wb, err := xls.OpenFile(url)
 	if err != nil {
 		return nil, err
 	}
-	numOfSheets := xlsFile.NumSheets()
-	var res [][]string
 
-	for i := 0; i < numOfSheets; i++ {
-		if sheet := xlsFile.GetSheet(i); sheet != nil {
-			rowNum := int(sheet.MaxRow)
-			for j := 0; j <= rowNum; j++ {
-				row := sheet.Row(j)
-				colNum := row.LastCol()
-				ans := make([]string, colNum)
-				for k := 0; k < colNum; k++ {
-					ans[i] = row.Col(k)
+	var res [][]string
+	sheet, err := wb.GetSheet(0)
+	if err != nil {
+		return nil,err
+	}
+	for i := 0; i <= sheet.GetNumberRows(); i++ {
+		if row, err := sheet.GetRow(i); err == nil {
+			colsSize := len(row.GetCols())
+			res = append(res,[]string{})
+			for j := 0; j <= colsSize; j++ {
+				if cell, err := row.GetCol(j); err == nil {
+					res[i] = append(res[i], cell.GetString())
 				}
-				res = append(res, ans)
 			}
 		}
 	}
 	return  res, nil
 }
+
