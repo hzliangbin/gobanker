@@ -1,12 +1,11 @@
 package main
 
 import (
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/lib/pq"
 	_ "gobanker/routers"
 	"gobanker/spider"
-
-	"github.com/astaxie/beego"
 )
 
 func init() {
@@ -21,7 +20,8 @@ func main() {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
-	spider.CsIndexIndustryHandler()
+	//spider.CsIndexIndustryHandler()
+	spider.TradingDateSpider("2020-12")
 	orm.Debug = true
 	beego.Run()
 }
