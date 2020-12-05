@@ -62,7 +62,7 @@ func CsIndexIndustryHandler() []CsIndexIndustry {
 	for _, v := range data {
 		fmt.Printf("%+v\r\n", v)
 	}
-	ctx, cli := util.ConnectWithColl("csindex")
+	ctx, cli := util.ConnectWithColl("t_cs_index")
 	defer func() {
 		if err = cli.Close(ctx); err != nil {
 			panic(err)
@@ -73,7 +73,7 @@ func CsIndexIndustryHandler() []CsIndexIndustry {
 		fmt.Println("delete csindex collection error")
 	}
 	if _, err = cli.Collection.InsertMany(ctx, data); err != nil {
-		fmt.Println("insert csindex collection ok")
+		fmt.Println("insert csindex collection error")
 	}
 	return  data
 }

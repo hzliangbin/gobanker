@@ -15,7 +15,7 @@ var (
 	passwd = beego.AppConfig.String("password")
 )
 
-//连接db,
+//连接db
 func ConnectWithColl(coll string) (context.Context, *qmgo.QmgoClient)  {
 	ctx := context.Background()
 	mongodb := fmt.Sprintf("mongodb://%s:%s@%s", username, passwd, host)
