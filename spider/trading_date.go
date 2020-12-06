@@ -18,6 +18,7 @@ type TradingDateMsg struct {
 	Data []TradingDate `json:"data"`
 	Nowdate string `json:"nowdate"`
 }
+
 const baseUrl = "http://www.szse.cn/api/report/exchange/onepersistenthour/monthList"
 //TODO 每月1号更新一次，存入数据库后，其它时候直接从数据库取
 func TradingDateSpider(month string) error {

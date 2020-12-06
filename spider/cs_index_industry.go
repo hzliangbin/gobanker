@@ -10,7 +10,7 @@ import (
 
 var url string = "http://www.csindex.com.cn/uploads/downloads/other/files/zh_CN/ZzhyflWz.zip"
 var referrer string = "http://www.csindex.com.cn/zh-CN/downloads/industry-class"
-var download_folder string = "./download/"
+var downloadFolder string = "./download/"
 
 type CsIndexIndustry struct {
 	Code string
@@ -21,15 +21,16 @@ type CsIndexIndustry struct {
 	LvFour string
 	Date int64
 }
+
 //TODO 后期更改成定时任务，每天执行一次
 func CsIndexIndustryHandler() []CsIndexIndustry {
-	path := util.DownloadFile(url,referrer,download_folder,"csindextype.zip")
+	path := util.DownloadFile(url,referrer, downloadFolder,"csindextype.zip")
 	fmt.Println(path)
-	err := util.DecompressZip(path,download_folder)
+	err := util.DecompressZip(path, downloadFolder)
 	if err != nil {
 		fmt.Println(err)
 	}
-	res, err := util.ReadXLSData(download_folder+"cicslevel2.xls")
+	res, err := util.ReadXLSData(downloadFolder +"cicslevel2.xls")
 	if err != nil {
 		fmt.Println(err)
 	}
