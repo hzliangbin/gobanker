@@ -2,6 +2,7 @@ package spider
 
 import (
 	"fmt"
+	"gobanker/models"
 	"gobanker/util"
 	"regexp"
 	"strconv"
@@ -12,18 +13,10 @@ var url string = "http://www.csindex.com.cn/uploads/downloads/other/files/zh_CN/
 var referrer string = "http://www.csindex.com.cn/zh-CN/downloads/industry-class"
 var downloadFolder string = "./download/"
 
-type CsIndexIndustry struct {
-	Code string
-	Name string
-	LvOne string
-	LvTwo string
-	LvThree string
-	LvFour string
-	Date int64
-}
+
 
 //TODO 后期更改成定时任务，每天执行一次
-func CsIndexIndustryHandler() []CsIndexIndustry {
+func CsIndexIndustryHandler() []models.CsIndexIndustry {
 	path := util.DownloadFile(url,referrer, downloadFolder,"csindextype.zip")
 	fmt.Println(path)
 	err := util.DecompressZip(path, downloadFolder)
@@ -38,7 +31,7 @@ func CsIndexIndustryHandler() []CsIndexIndustry {
 	if err != nil {
 		fmt.Println(err)
 	}
-	var data []CsIndexIndustry
+	var data []models.CsIndexIndustry
 	r := regexp.MustCompile("\\s")
 	for i, cells := range res {
 		if i == 0 {
@@ -50,7 +43,7 @@ func CsIndexIndustryHandler() []CsIndexIndustry {
 		if !ok || strings.HasPrefix(code,"900") {
 			continue
 		}
-		data = append(data, CsIndexIndustry{
+		data = append(data, models.CsIndexIndustry{
 			Code:    code,
 			Name:    r.ReplaceAllString(cells[1],""),
 			LvOne:   cells[5],

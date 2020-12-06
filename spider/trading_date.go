@@ -5,19 +5,11 @@ import (
 	"fmt"
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/extensions"
+	"gobanker/models"
 	"gobanker/util"
 	"net/http"
 )
 
-type TradingDate struct {
-	Zrxh int `json:"zrxh"`
-	Jybz string `json:"jybz"`
-	Jyrq string `json:"jyrq"`
-}
-type TradingDateMsg struct {
-	Data []TradingDate `json:"data"`
-	Nowdate string `json:"nowdate"`
-}
 
 const baseUrl = "http://www.szse.cn/api/report/exchange/onepersistenthour/monthList"
 //TODO 每月1号更新一次，存入数据库后，其它时候直接从数据库取
@@ -46,7 +38,7 @@ func TradingDateSpider(month string) error {
 		}
 	})
 
-	msg := TradingDateMsg{}
+	msg := models.TradingDateMsg{}
 	c.OnResponse(func(response *colly.Response) {
 		err := json.Unmarshal(response.Body, &msg)
 		if err != nil {

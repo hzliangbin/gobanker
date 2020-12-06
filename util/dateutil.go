@@ -3,7 +3,7 @@ package util
 import (
 	"github.com/hzliangbin/date"
 	"go.mongodb.org/mongo-driver/bson"
-	"gobanker/spider"
+	"gobanker/models"
 )
 
 
@@ -21,7 +21,7 @@ func IsTradingDay() (bool, error) {
 	d := date.Now()
 	//获取本月月份
 	today, err := d.Format("yyyy-MM-dd",false)
-	month, err := d.Format("yyyy-MM",false)
+	//month, err := d.Format("yyyy-MM",false)
 	if err != nil {
 		return false, err
 	}
@@ -32,14 +32,15 @@ func IsTradingDay() (bool, error) {
 			panic(err)
 		}
 	}()
-	one := spider.TradingDate{}
-	if err = cli.Find(ctx,bson.M{"jyrq":today}).One(&one); err == nil {
+	one := models.TradingDate{}
+	err = cli.Find(ctx,bson.M{"jyrq":today}).One(&one);
+	if err == nil {
 		return one.Jybz == "1", nil
 	}
-	if err = spider.TradingDateSpider(month); err == nil {
-		if err = cli.Find(ctx,bson.M{"jyrq":today}).One(&one); err == nil {
-			return one.Jybz == "1", nil
-		}
-	}
+	//if err = spider.TradingDateSpider(month); err == nil {
+	//	if err = cli.Find(ctx,bson.M{"jyrq":today}).One(&one); err == nil {
+	//		return one.Jybz == "1", nil
+	//	}
+	//}
 	return false, err
 }
