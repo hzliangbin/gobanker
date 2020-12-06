@@ -15,6 +15,7 @@ func SinaIndexSpider(stockCode *[]string) error{
 	})
 
 	c.OnRequest(func(request *colly.Request) {
-		request.Headers.Set("Referer",)
+		//request.Headers.Set("Referer",)
 	})
+	return nil
 }
