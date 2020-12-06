@@ -6,6 +6,7 @@ import (
 	_ "github.com/lib/pq"
 	_ "gobanker/routers"
 	"gobanker/spider"
+	"fmt"
 )
 
 func init() {
@@ -21,6 +22,7 @@ func main() {
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
 	//spider.CsIndexIndustryHandler()
+	fmt.Println("teston heiheihei")
 	spider.TradingDateSpider("2020-12")
 	orm.Debug = true
 	beego.Run()
