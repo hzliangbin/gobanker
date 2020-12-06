@@ -23,6 +23,7 @@ func main() {
 	}
 	//spider.CsIndexIndustryHandler()
 	fmt.Println("teston heiheihei")
+	fmt.Println("test merge heiheihei")
 	spider.TradingDateSpider("2020-12")
 	fmt.Println("test pr liangbin")
 	orm.Debug = true
