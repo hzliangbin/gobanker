@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func SinaIndexSpider(stockCode *[]string) error{
+func SinaIndexSpider(queryCode *string) error{
 	c := colly.NewCollector(colly.Async(true))
 	extensions.RandomUserAgent(c)
 	extensions.Referer(c)
@@ -34,7 +34,7 @@ func SinaIndexSpider(stockCode *[]string) error{
 		//err := json.Unmarshal(response.Body,)
 		fmt.Println(string(response.Body))
 	})
-	url := fmt.Sprintf("http://hq.sinajs.cn/list=%s", *stockCode)
+	url := fmt.Sprintf("http://hq.sinajs.cn/list=%s", *queryCode)
 	err := c.Visit(url)
 	if err != nil {
 		fmt.Println("visit error")
