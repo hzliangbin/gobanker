@@ -8,6 +8,7 @@ import (
 	_ "github.com/lib/pq"
 	_ "gobanker/routers"
 	"gobanker/spider"
+	"regexp"
 )
 
 func init() {
@@ -31,7 +32,7 @@ func main() {
 		buffer.WriteString(code)
 		buffer.WriteString(",")
 	}
-	queryCodes := buffer.String()
+	queryCodes := regexp.MustCompile("\\,$").ReplaceAllString(buffer.String(),"")
 
 	fmt.Println(queryCodes)
 	if err := spider.SinaIndexSpider(&queryCodes); err != nil {
