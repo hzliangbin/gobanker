@@ -17,3 +17,4 @@ gobanker
 .idea/
 conf/db.conf
 download
+.DS_Store
