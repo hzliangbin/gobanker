@@ -1,43 +1,22 @@
+/*
+Copyright © 2022 hzliangbin hzliangbin@foxmail.com
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 package main
 
-import (
-	"bytes"
-	"fmt"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
-	_ "github.com/lib/pq"
-	_ "gobanker/routers"
-	"gobanker/spider"
-	"regexp"
-)
-
-func init() {
-	//orm.RegisterDriver("postgres",orm.DRPostgres)
-	//var dataSource string = beego.AppConfig.String("pgsql_datasource")
-	//orm.RegisterDataBase("default","postgres", dataSource)
-	//orm.RunSyncdb("default",false,true)
-}
+import "gobanker/cmd"
 
 func main() {
-	if beego.BConfig.RunMode == "dev" {
-		beego.BConfig.WebConfig.DirectoryIndex = true
-		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
-	}
-	//spider.CsIndexIndustryHandler()
-
-	//spider.TradingDateSpider("2020-12")
-	codes := []string{"sz000002","sh600519"}
-	var buffer bytes.Buffer
-	for _, code := range codes {
-		buffer.WriteString(code)
-		buffer.WriteString(",")
-	}
-	queryCodes := regexp.MustCompile("\\,$").ReplaceAllString(buffer.String(),"")
-
-	fmt.Println(queryCodes)
-	if err := spider.SinaIndexSpider(&queryCodes); err != nil {
-		fmt.Println("sina index ok")
-	}
-	orm.Debug = true
-	beego.Run()
+	cmd.Execute()
 }
