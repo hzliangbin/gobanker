@@ -15,6 +15,6 @@
 vendor/
 gobanker
 .idea/
-conf/db.conf
+config/db.conf
 download
 .DS_Store
