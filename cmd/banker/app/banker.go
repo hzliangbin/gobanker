@@ -5,7 +5,10 @@ import (
 
 	"github.com/hzliangbin/gobanker/cmd/banker/app/options"
 	"github.com/hzliangbin/gobanker/cmd/banker/app/options/flags"
+	"github.com/hzliangbin/gobanker/pkg/apiserver"
 	"github.com/hzliangbin/gobanker/pkg/blog"
+
+	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 var (
@@ -25,11 +28,18 @@ var (
 
 	Start = func(c *cli.Context) error {
 		if errs := flags.BankerOpts.Validate(); len(errs) > 0 {
-			return errs
+			// TODO we should not import k8s dependency
+			return utilerrors.NewAggregate(errs)
 		}
+
+		run(flags.BankerOpts)
+
+		return nil
 	}
 )
 
 func run(opts * options.BankerOptions) {
-	blog.InitLoggerWithOpts(flags.BankerOpts.LoggerOpts)
+	blog.InitLoggerWithOpts(opts.LoggerOpts)
+
+	apiserver.NewAPIServerWithOpts(opts.APIServerOpts).Run()
 }

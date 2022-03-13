@@ -5,6 +5,7 @@ import (
 
 	"github.com/spf13/viper"
 
+	"github.com/hzliangbin/gobanker/pkg/apiserver"
 	"github.com/hzliangbin/gobanker/pkg/blog"
 	"github.com/hzliangbin/gobanker/pkg/database"
 )
@@ -17,11 +18,14 @@ const (
 type BankerOptions struct {
 	DataBaseOpts *database.Config
 	LoggerOpts *blog.Config
+	APIServerOpts *apiserver.Config
 }
 
 func NewBankerOptions() *BankerOptions {
 	bankerOpts := &BankerOptions{
 		DataBaseOpts: &database.Config{},
+		LoggerOpts: &blog.Config{},
+		APIServerOpts: &apiserver.Config{},
 	}
 	return bankerOpts
 }
@@ -47,4 +51,10 @@ func LoadConfigFromDisk() (*BankerOptions, error) {
 	}
 
 	return conf, nil
+}
+
+func (o *BankerOptions) Validate() []error {
+	var errs []error
+
+	return errs
 }
