@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "gobanker/cmd"
+import "github.com/hzliangbin/gobanker/cmd"
 
 func main() {
 	cmd.Execute()

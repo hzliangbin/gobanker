@@ -1,11 +1,16 @@
 package main
 
 import (
+	"log"
 	"math/rand"
+	"os"
 	"strconv"
 	"time"
 
 	"github.com/urfave/cli/v2"
+
+	banker "github.com/hzliangbin/gobanker/cmd/banker/app"
+	"github.com/hzliangbin/gobanker/cmd/banker/app/options/flags"
 )
 
 var version = "1.0.0"
@@ -19,7 +24,12 @@ func main() {
 	app.Compiled = time.Now()
 	app.Copyright = "(c) " + strconv.Itoa(time.Now().Year()) + " Banker"
 
-	app.Flags =
+	app.Flags = flags.Flag
+	app.Before = banker.Before
+	app.Action = banker.Start
 
-
+	err := app.Run(os.Args)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
